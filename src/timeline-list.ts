@@ -1,3 +1,4 @@
+import { Profile } from './profile';
 import { QueryTweetsResponse } from './timeline-v1';
 import { parseAndPush, TimelineEntryRaw } from './timeline-v2';
 import { Tweet } from './tweets';
@@ -16,6 +17,17 @@ export interface ListTimeline {
       };
     };
   };
+}
+
+export interface ListsTimeline {
+  id: string;
+  id_str: string;
+  name: string;
+  description: string;
+  member_count: number;
+  subscriber_count: number;
+  created_at?: Date;
+  profile: Profile;
 }
 
 export function parseListTimelineTweets(

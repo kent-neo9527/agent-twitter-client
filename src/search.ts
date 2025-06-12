@@ -1,15 +1,17 @@
 import { addApiFeatures, requestApi } from './api';
 import { TwitterAuth } from './auth';
 import { Profile } from './profile';
-import { QueryProfilesResponse, QueryTweetsResponse } from './timeline-v1';
+import { QueryProfilesResponse, QueryTweetsResponse,QueryListsResponse } from './timeline-v1';
 import { getTweetTimeline, getUserTimeline } from './timeline-async';
 import { Tweet } from './tweets';
 import {
   SearchTimeline,
   parseSearchTimelineTweets,
   parseSearchTimelineUsers,
+  parseSearchTimelineLists,
 } from './timeline-search';
 import stringify from 'json-stable-stringify';
+import { ListsTimeline } from './timeline-list';
 
 /**
  * The categories that can be used in Twitter searches.
@@ -20,6 +22,7 @@ export enum SearchMode {
   Photos,
   Videos,
   Users,
+  Lists,
 }
 
 export function searchTweets(
@@ -41,6 +44,23 @@ export function searchProfiles(
   return getUserTimeline(query, maxProfiles, (q, mt, c) => {
     return fetchSearchProfiles(q, mt, auth, c);
   });
+}
+
+export async function searchLists(
+  query: string,
+  maxLists: number,
+  auth: TwitterAuth,
+  cursor?: string,
+): Promise<any> {
+  const timeline = await getSearchTimeline(
+    query,
+    maxLists,
+    SearchMode.Lists,
+    auth,
+    cursor,
+  );
+  const lists = parseSearchTimelineLists(timeline);
+  return lists.lists;
 }
 
 export async function fetchSearchTweets(
@@ -132,6 +152,9 @@ async function getSearchTimeline(
       break;
     case SearchMode.Users:
       variables.product = 'People';
+      break;
+    case SearchMode.Lists:
+      variables.product = 'Lists';
       break;
     default:
       break;

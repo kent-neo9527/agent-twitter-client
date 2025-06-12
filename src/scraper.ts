@@ -20,6 +20,7 @@ import {
   SearchMode,
   searchProfiles,
   searchQuotedTweets,
+  searchLists,
   searchTweets,
 } from './search';
 import {
@@ -29,7 +30,11 @@ import {
   getFollowers,
   followUser,
 } from './relationships';
-import { QueryProfilesResponse, QueryTweetsResponse } from './timeline-v1';
+import {
+  QueryProfilesResponse,
+  QueryTweetsResponse,
+  QueryListsResponse,
+} from './timeline-v1';
 import { getTrends } from './trends';
 import {
   Tweet,
@@ -193,6 +198,10 @@ export class Scraper {
     searchMode: SearchMode = SearchMode.Top,
   ): AsyncGenerator<Tweet, void> {
     return searchTweets(query, maxTweets, searchMode, this.auth);
+  }
+
+  public searchLists(query: string, maxLists: number): Promise<any> {
+    return searchLists(query, maxLists, this.auth);
   }
 
   /**

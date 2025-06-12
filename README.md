@@ -1,11 +1,11 @@
-# agent-twitter-client
+# social-proton-twitter-client
 
 This is a modified version of [@the-convocation/twitter-scraper](https://github.com/the-convocation/twitter-scraper) with added functionality for sending tweets and retweets. This package does not require the Twitter API to use and will run in both the browser and server.
 
 ## Installation
 
 ```sh
-npm install agent-twitter-client
+npm install social-proton-twitter-client
 ```
 
 ## Setup
@@ -143,7 +143,7 @@ const me = await scraper.me();
 ### Search
 
 ```ts
-import { SearchMode } from 'agent-twitter-client';
+import { SearchMode } from 'social-proton-twitter-client';
 
 // Search for recent tweets
 const tweets = scraper.searchTweets('#nodejs', 20, SearchMode.Latest);

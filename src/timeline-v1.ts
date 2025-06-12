@@ -2,6 +2,7 @@ import { LegacyUserRaw, parseProfile, Profile } from './profile';
 import { parseMediaGroups, reconstructTweetHtml } from './timeline-tweet-util';
 import { PlaceRaw, Tweet } from './tweets';
 import { isFieldDefined } from './type-util';
+import { ListsTimeline } from './timeline-list';
 
 export interface Hashtag {
   text?: string;
@@ -475,6 +476,12 @@ export function parseTimelineTweetsV1(
  */
 export interface QueryProfilesResponse {
   profiles: Profile[];
+  next?: string;
+  previous?: string;
+}
+
+export interface QueryListsResponse {
+  lists: ListsTimeline[];
   next?: string;
   previous?: string;
 }

@@ -16,6 +16,19 @@ export interface TimelineUserResultRaw {
   is_blue_verified?: boolean;
 }
 
+export interface TimelineListsResultRaw {
+  id: string;
+  name: string;
+  id_str: string;
+  description: string;
+  member_count: number;
+  subscriber_count: number;
+  created_at?: string;
+  user_results?: {
+    result?: TimelineUserResultRaw;
+  };
+}
+
 export interface TimelineEntryItemContentRaw {
   itemType?: string;
   tweetDisplayType?: string;
@@ -56,6 +69,8 @@ export interface SearchEntryItemContentRaw {
   user_results?: {
     result?: TimelineUserResultRaw;
   };
+  displayType?: string;
+  list?: TimelineListsResultRaw;
 }
 
 export interface SearchEntryRaw {
@@ -69,6 +84,7 @@ export interface SearchEntryRaw {
     items?: {
       item?: {
         content?: SearchEntryItemContentRaw;
+        itemContent?: SearchEntryItemContentRaw;
       };
     }[];
     itemContent?: SearchEntryItemContentRaw;
