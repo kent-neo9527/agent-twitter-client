@@ -106,6 +106,7 @@ import {
   GrokChatOptions,
   GrokChatResponse,
 } from './grok';
+import { getListsMembers, getTweetsInList } from './timeline-list';
 
 const twUrl = 'https://twitter.com';
 const UserTweetsUrl =
@@ -215,6 +216,14 @@ export class Scraper {
     maxProfiles: number,
   ): AsyncGenerator<Profile, void> {
     return searchProfiles(query, maxProfiles, this.auth);
+  }
+
+  public getListsMembers(listId: string, maxProfiles: number): Promise<any> {
+    return getListsMembers(listId, maxProfiles, this.auth);
+  }
+
+  public getListsTweets(listId: string, maxTweets: number): Promise<any> {
+    return getTweetsInList(listId, maxTweets, this.auth);
   }
 
   /**

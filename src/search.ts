@@ -1,7 +1,7 @@
 import { addApiFeatures, requestApi } from './api';
 import { TwitterAuth } from './auth';
 import { Profile } from './profile';
-import { QueryProfilesResponse, QueryTweetsResponse,QueryListsResponse } from './timeline-v1';
+import { QueryProfilesResponse, QueryTweetsResponse } from './timeline-v1';
 import { getTweetTimeline, getUserTimeline } from './timeline-async';
 import { Tweet } from './tweets';
 import {
@@ -11,7 +11,6 @@ import {
   parseSearchTimelineLists,
 } from './timeline-search';
 import stringify from 'json-stable-stringify';
-import { ListsTimeline } from './timeline-list';
 
 /**
  * The categories that can be used in Twitter searches.
