@@ -59,7 +59,6 @@ export async function getListsMembers(
     QueryListsMode.UsersList,
     auth,
   );
-  console.log('List timeline:', JSON.stringify(timeline, null, 2));
   return parseListTimelineMembers(timeline);
 }
 
@@ -240,10 +239,8 @@ export function parseListTimelineMembers(
         topCursor = instruction.entry.content.value;
         continue;
       }
-      console.log('Processing instruction:', JSON.stringify(instruction));
       const entries = instruction.entries ?? [];
       for (const entry of entries) {
-        console.log('Processing entry:', JSON.stringify(entry));
         const itemContent = entry.content?.itemContent;
         if (itemContent?.userDisplayType === 'User') {
           const userResultRaw = itemContent.user_results?.result;
