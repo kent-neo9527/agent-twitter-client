@@ -29,6 +29,7 @@ import {
   getFollowing,
   getFollowers,
   followUser,
+  unfollowUser,
 } from './relationships';
 import {
   QueryProfilesResponse,
@@ -106,7 +107,11 @@ import {
   GrokChatOptions,
   GrokChatResponse,
 } from './grok';
-import { getListsMembers, getTweetsInList, getListsSubscribers } from './timeline-list';
+import {
+  getListsMembers,
+  getTweetsInList,
+  getListsSubscribers,
+} from './timeline-list';
 
 const twUrl = 'https://twitter.com';
 const UserTweetsUrl =
@@ -917,6 +922,9 @@ export class Scraper {
     await followUser(userName, this.auth);
   }
 
+  public async unfollowUser(userId: string): Promise<void> {
+    await unfollowUser(userId, this.auth);
+  }
   /**
    * Fetches direct message conversations
    * @param count Number of conversations to fetch (default: 50)

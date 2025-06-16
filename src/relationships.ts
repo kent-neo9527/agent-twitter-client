@@ -162,7 +162,6 @@ export async function followUser(
   username: string,
   auth: TwitterAuth,
 ): Promise<Response> {
-
   // Check if the user is logged in
   if (!(await auth.isLoggedIn())) {
     throw new Error('Must be logged in to follow users');
@@ -194,8 +193,10 @@ export async function followUser(
   });
 
   // Install auth headers
-  await auth.installTo(headers, 'https://api.twitter.com/1.1/friendships/create.json');
-  
+  await auth.installTo(
+    headers,
+    'https://api.twitter.com/1.1/friendships/create.json',
+  );
   // Make the follow request using auth.fetch
   const res = await auth.fetch(
     'https://api.twitter.com/1.1/friendships/create.json',
@@ -209,6 +210,61 @@ export async function followUser(
 
   if (!res.ok) {
     throw new Error(`Failed to follow user: ${res.statusText}`);
+  }
+
+  const data = await res.json();
+
+  return new Response(JSON.stringify(data), {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
+
+export async function unfollowUser(userId: string, auth: TwitterAuth) {
+  if (!(await auth.isLoggedIn())) {
+    throw new Error('Must be logged in to follow users');
+  }
+  const unFollowUserUrl = 'https://x.com/i/api/1.1/friendships/destroy.json';
+  const requestBody = {
+    include_profile_interstitial_type: '1',
+    include_blocking: '1',
+    include_blocked_by: '1',
+    include_followed_by: '1',
+    include_want_retweets: '1',
+    include_mute_edge: '1',
+    include_can_dm: '1',
+    include_can_media_tag: '1',
+    include_ext_is_blue_verified: '1',
+    include_ext_verified_type: '1',
+    include_ext_profile_image_shape: '1',
+    skip_status: '1',
+    user_id: userId,
+  };
+  //
+  const meProfile = await auth.me();
+  // Prepare the headers
+  const headers = new Headers({
+    'Content-Type': 'application/x-www-form-urlencoded',
+    Referer: `https://x.com/${meProfile?.username}/followers`,
+    'X-Twitter-Active-User': 'yes',
+    'X-Twitter-Auth-Type': 'OAuth2Session',
+    'X-Twitter-Client-Language': 'en',
+    Authorization: `Bearer ${bearerToken}`,
+  });
+
+  await auth.installTo(headers, unFollowUserUrl);
+  // Make the follow request using auth.fetch
+  const res = await auth.fetch(unFollowUserUrl, {
+    method: 'POST',
+    headers,
+    body: new URLSearchParams(requestBody).toString(),
+    credentials: 'include',
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to unfollow user: ${res.statusText}`);
   }
 
   const data = await res.json();
