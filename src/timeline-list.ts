@@ -108,7 +108,7 @@ export async function getListsTimeline(
   let queryUrl: string;
   switch (queryMode) {
     case QueryListsMode.UsersList:
-      queryUrl = `https://x.com/i/api/graphql/MIVGmoGBX0zdn-Vb1a3IsQ/ListMembers`;
+      queryUrl = `https://x.com/i/api/graphql/rILEX11dtUyM3bWbDQROmw/ListMembers`;
       features = {
         rweb_video_screen_enabled: false,
         payments_enabled: false,
@@ -117,7 +117,8 @@ export async function getListsTimeline(
         verified_phone_label_enabled: false,
         creator_subscriptions_tweet_preview_api_enabled: true,
         responsive_web_graphql_timeline_navigation_enabled: true,
-        responsive_web_graphql_skip_user_profile_image_extensions_enabled: false,
+        responsive_web_graphql_skip_user_profile_image_extensions_enabled:
+          false,
         premium_content_api_read_enabled: false,
         communities_web_enable_tweet_community_results_fetch: true,
         c9s_tweet_anatomy_moderator_badge_enabled: true,
