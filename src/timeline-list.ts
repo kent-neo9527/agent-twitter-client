@@ -158,7 +158,6 @@ export async function getListsTimeline(
   params.set('features', stringify(features) ?? '');
   params.set('variables', stringify(variables) ?? '');
   const requestAPI = `${queryUrl}?${params.toString()}`;
-  console.log('Requesting List Timeline:', requestAPI);
   const res = await requestApi<ListTimeline>(requestAPI, auth);
   if (!res.success) {
     throw res.err;
