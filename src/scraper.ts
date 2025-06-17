@@ -922,8 +922,8 @@ export class Scraper {
     await followUser(userName, this.auth);
   }
 
-  public async unfollowUser(userId: string): Promise<void> {
-    await unfollowUser(userId, this.auth);
+  public async unfollowUser(username: string): Promise<void> {
+    await unfollowUser(username, this.auth);
   }
   /**
    * Fetches direct message conversations

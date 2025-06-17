@@ -9,6 +9,8 @@ import {
   parseRelationshipTimeline,
 } from './timeline-relationship';
 import stringify from 'json-stable-stringify';
+import { Console } from 'node:console';
+import { json } from 'node:stream/consumers';
 
 export function getFollowing(
   userId: string,
@@ -222,10 +224,13 @@ export async function followUser(
   });
 }
 
-export async function unfollowUser(userId: string, auth: TwitterAuth) {
-  if (!(await auth.isLoggedIn())) {
-    throw new Error('Must be logged in to follow users');
+export async function unfollowUser(username: string, auth: TwitterAuth) {
+  const userIdResult = await getUserIdByScreenName(username, auth);
+
+  if (!userIdResult.success) {
+    throw new Error(`Failed to get user ID: ${userIdResult.err.message}`);
   }
+
   const unFollowUserUrl = 'https://x.com/i/api/1.1/friendships/destroy.json';
   const requestBody = {
     include_profile_interstitial_type: '1',
@@ -240,7 +245,7 @@ export async function unfollowUser(userId: string, auth: TwitterAuth) {
     include_ext_verified_type: '1',
     include_ext_profile_image_shape: '1',
     skip_status: '1',
-    user_id: userId,
+    user_id: userIdResult.value,
   };
   //
   const meProfile = await auth.me();
