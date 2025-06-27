@@ -575,7 +575,7 @@ export async function createCreateTweetRequest(
     throw new Error(await response.text());
   }
 
-  return response;
+  return await response.json();
 }
 
 export async function createCreateNoteTweetRequest(
