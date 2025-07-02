@@ -1,7 +1,11 @@
 import { addApiFeatures, requestApi } from './api';
 import { TwitterAuth } from './auth';
 import { Profile } from './profile';
-import { QueryListsResponse, QueryProfilesResponse, QueryTweetsResponse } from './timeline-v1';
+import {
+  QueryListsResponse,
+  QueryProfilesResponse,
+  QueryTweetsResponse,
+} from './timeline-v1';
 import {
   getTweetTimeline,
   getUserTimeline,

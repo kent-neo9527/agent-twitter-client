@@ -1,6 +1,6 @@
 import { Profile } from './profile';
 import { Tweet } from './tweets';
-import {ListsTimeline} from './timeline-list'
+import { ListsTimeline } from './timeline-list';
 
 export interface FetchProfilesResponse {
   profiles: Profile[];
