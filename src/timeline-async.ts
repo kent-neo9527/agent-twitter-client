@@ -1,5 +1,6 @@
 import { Profile } from './profile';
 import { Tweet } from './tweets';
+import {ListsTimeline} from './timeline-list'
 
 export interface FetchProfilesResponse {
   profiles: Profile[];
@@ -23,6 +24,45 @@ export type FetchTweets = (
   cursor: string | undefined,
 ) => Promise<FetchTweetsResponse>;
 
+export interface FetchListsResponse {
+  lists: ListsTimeline[];
+  next?: string;
+}
+
+export type FetchLists = (
+  query: string,
+  maxProfiles: number,
+  cursor: string | undefined,
+) => Promise<FetchListsResponse>;
+
+export async function* getListsTimeline(
+  query: string,
+  maxLists: number,
+  fetchFunc: FetchLists,
+): AsyncGenerator<ListsTimeline, void> {
+  let nList = 0;
+  let cursor: string | undefined = undefined;
+  while (nList < maxLists) {
+    const batch: FetchListsResponse = await fetchFunc(query, maxLists, cursor);
+
+    const { lists, next } = batch;
+
+    if (lists.length === 0) {
+      break;
+    }
+
+    for (const list of lists) {
+      if (nList < maxLists) {
+        cursor = next;
+        yield list;
+      } else {
+        break;
+      }
+
+      nList++;
+    }
+  }
+}
 export async function* getUserTimeline(
   query: string,
   maxProfiles: number,

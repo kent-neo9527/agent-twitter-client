@@ -111,6 +111,7 @@ import {
   getListsMembers,
   getTweetsInList,
   getListsSubscribers,
+  ListsTimeline,
 } from './timeline-list';
 
 const twUrl = 'https://twitter.com';
@@ -206,7 +207,10 @@ export class Scraper {
     return searchTweets(query, maxTweets, searchMode, this.auth);
   }
 
-  public searchLists(query: string, maxLists: number): Promise<any> {
+  public searchLists(
+    query: string,
+    maxLists: number,
+  ): AsyncGenerator<ListsTimeline, void> {
     return searchLists(query, maxLists, this.auth);
   }
 

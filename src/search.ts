@@ -1,8 +1,12 @@
 import { addApiFeatures, requestApi } from './api';
 import { TwitterAuth } from './auth';
 import { Profile } from './profile';
-import { QueryProfilesResponse, QueryTweetsResponse } from './timeline-v1';
-import { getTweetTimeline, getUserTimeline } from './timeline-async';
+import { QueryListsResponse, QueryProfilesResponse, QueryTweetsResponse } from './timeline-v1';
+import {
+  getTweetTimeline,
+  getUserTimeline,
+  getListsTimeline,
+} from './timeline-async';
 import { Tweet } from './tweets';
 import {
   SearchTimeline,
@@ -11,6 +15,7 @@ import {
   parseSearchTimelineLists,
 } from './timeline-search';
 import stringify from 'json-stable-stringify';
+import { ListsTimeline } from './timeline-list';
 
 /**
  * The categories that can be used in Twitter searches.
@@ -45,21 +50,31 @@ export function searchProfiles(
   });
 }
 
-export async function searchLists(
+export function searchLists(
   query: string,
   maxLists: number,
   auth: TwitterAuth,
+): AsyncGenerator<ListsTimeline, void> {
+  return getListsTimeline(query, maxLists, (q, mt, c) => {
+    return fetchLists(q, mt, SearchMode.Lists, auth, c);
+  });
+}
+
+export async function fetchLists(
+  query: string,
+  maxTweets: number,
+  searchMode: SearchMode,
+  auth: TwitterAuth,
   cursor?: string,
-): Promise<any> {
+): Promise<QueryListsResponse> {
   const timeline = await getSearchTimeline(
     query,
-    maxLists,
-    SearchMode.Lists,
+    maxTweets,
+    searchMode,
     auth,
     cursor,
   );
-  const lists = parseSearchTimelineLists(timeline);
-  return lists.lists;
+  return parseSearchTimelineLists(timeline);
 }
 
 export async function fetchSearchTweets(
