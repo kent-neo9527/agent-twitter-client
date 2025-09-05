@@ -113,6 +113,7 @@ import {
   getListsSubscribers,
   ListsTimeline,
 } from './timeline-list';
+import { fetchIpInfo, IpInfoResponse } from './ip-config';
 
 const twUrl = 'https://twitter.com';
 const UserTweetsUrl =
@@ -169,6 +170,10 @@ export class Scraper {
   public async getProfile(username: string): Promise<Profile> {
     const res = await getProfile(username, this.auth);
     return this.handleResponse(res);
+  }
+
+  public async getIpInfo(): Promise<IpInfoResponse> {
+    return await fetchIpInfo(this.auth);
   }
 
   /**

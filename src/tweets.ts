@@ -516,7 +516,7 @@ export async function createCreateTweetRequest(
     variables.reply = { in_reply_to_tweet_id: tweetId };
   }
 
-  const response = await fetch(
+  const response = await auth.fetch(
     'https://twitter.com/i/api/graphql/a1p9RWpkYKBjWv_I3WzS-A/CreateTweet',
     {
       headers,
@@ -629,7 +629,7 @@ export async function createCreateNoteTweetRequest(
     variables.reply = { in_reply_to_tweet_id: tweetId };
   }
 
-  const response = await fetch(
+  const response = await auth.fetch(
     'https://twitter.com/i/api/graphql/0aWhJJmFlxkxv9TAUJPanA/CreateNoteTweet',
     {
       headers,
@@ -1066,7 +1066,7 @@ async function uploadMedia(
       }),
     );
 
-    const response = await fetch(uploadUrl, {
+    const response = await auth.fetch(uploadUrl, {
       method: 'POST',
       headers,
       body: form,
@@ -1093,7 +1093,7 @@ async function uploadMedia(
     initParams.append('media_type', mediaType);
     initParams.append('total_bytes', mediaData.length.toString());
 
-    const initResponse = await fetch(uploadUrl, {
+    const initResponse = await auth.fetch(uploadUrl, {
       method: 'POST',
       headers,
       body: initParams,
@@ -1118,7 +1118,7 @@ async function uploadMedia(
       appendForm.append('segment_index', segmentIndex.toString());
       appendForm.append('media', new Blob([chunk]));
 
-      const appendResponse = await fetch(uploadUrl, {
+      const appendResponse = await auth.fetch(uploadUrl, {
         method: 'POST',
         headers,
         body: appendForm,
@@ -1136,7 +1136,7 @@ async function uploadMedia(
     finalizeParams.append('command', 'FINALIZE');
     finalizeParams.append('media_id', mediaId);
 
-    const finalizeResponse = await fetch(uploadUrl, {
+    const finalizeResponse = await auth.fetch(uploadUrl, {
       method: 'POST',
       headers,
       body: finalizeParams,
@@ -1166,7 +1166,7 @@ async function uploadMedia(
       statusParams.append('command', 'STATUS');
       statusParams.append('media_id', mediaId);
 
-      const statusResponse = await fetch(
+      const statusResponse = await auth.fetch(
         `${uploadUrl}?${statusParams.toString()}`,
         {
           method: 'GET',
@@ -1242,7 +1242,7 @@ export async function createQuoteTweetRequest(
   }
 
   // Send the GraphQL request to create a quote tweet
-  const response = await fetch(
+  const response = await auth.fetch(
     'https://twitter.com/i/api/graphql/a1p9RWpkYKBjWv_I3WzS-A/CreateTweet',
     {
       headers,
@@ -1340,7 +1340,7 @@ export async function likeTweet(
   };
 
   // Send the POST request to like the tweet
-  const response = await fetch(likeTweetUrl, {
+  const response = await auth.fetch(likeTweetUrl, {
     method: 'POST',
     headers,
     body: JSON.stringify(payload),
@@ -1391,7 +1391,7 @@ export async function retweet(
   };
 
   // Send the POST request to retweet the tweet
-  const response = await fetch(retweetUrl, {
+  const response = await auth.fetch(retweetUrl, {
     method: 'POST',
     headers,
     body: JSON.stringify(payload),
@@ -1490,7 +1490,7 @@ export async function createCreateLongTweetRequest(
     responsive_web_enhance_cards_enabled: false,
   };
 
-  const response = await fetch(url, {
+  const response = await auth.fetch(url, {
     headers,
     body: JSON.stringify({
       variables,
@@ -1613,7 +1613,7 @@ export async function fetchRetweetersPage(
     'x-csrf-token': xCsrfToken?.value || '',
   });
 
-  const response = await fetch(url.toString(), {
+  const response = await auth.fetch(url.toString(), {
     method: 'GET',
     headers,
   });
@@ -1736,7 +1736,7 @@ export async function bookmark(
     queryId: 'aoDbu3RHznuiSkQ9aNM67Q',
   };
 
-  const response = await fetch(bookmarkUrl, {
+  const response = await auth.fetch(bookmarkUrl, {
     method: 'POST',
     headers,
     body: JSON.stringify(payload),

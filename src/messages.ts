@@ -258,7 +258,7 @@ export async function getDirectMessageConversations(
     'x-csrf-token': xCsrfToken?.value as string,
   });
 
-  const response = await fetch(finalUrl, {
+  const response = await auth.fetch(finalUrl, {
     method: 'GET',
     headers,
   });
@@ -312,7 +312,7 @@ export async function sendDirectMessage(
     dm_users: false,
   };
 
-  const response = await fetch(messageDmUrl, {
+  const response = await auth.fetch(messageDmUrl, {
     method: 'POST',
     headers,
     body: JSON.stringify(payload),
