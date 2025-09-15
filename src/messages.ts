@@ -228,27 +228,42 @@ function extractMediaUrls(messageData: any): string[] | undefined {
 export async function getUntrustedDirectMessageConversations(
   userId: string,
   auth: TwitterAuth,
+  max_id?: string,
   cursor?: string,
 ): Promise<DirectMessagesResponse> {
   const messageListUrl =
     'https://x.com/i/api/1.1/dm/inbox_timeline/untrusted.json';
-  return getDirectMessageConversations(userId, auth, messageListUrl, cursor);
+  return getDirectMessageConversations(
+    userId,
+    auth,
+    messageListUrl,
+    max_id,
+    cursor,
+  );
 }
 
 export async function getTrustedDirectMessageConversations(
   userId: string,
   auth: TwitterAuth,
+  max_id?: string,
   cursor?: string,
 ): Promise<DirectMessagesResponse> {
   const messageListUrl =
     'https://x.com/i/api/1.1/dm/inbox_timeline/trusted.json';
-  return getDirectMessageConversations(userId, auth, messageListUrl, cursor);
+  return getDirectMessageConversations(
+    userId,
+    auth,
+    messageListUrl,
+    max_id,
+    cursor,
+  );
 }
 
 export async function getDirectMessageConversations(
   userId: string,
   auth: TwitterAuth,
   messageListUrl?: string,
+  max_id?: string,
   cursor?: string,
 ): Promise<DirectMessagesResponse> {
   if (!auth.isLoggedIn()) {
@@ -267,7 +282,9 @@ export async function getDirectMessageConversations(
   if (cursor) {
     params.append('cursor', cursor);
   }
-
+  if (max_id) {
+    params.append('max_id', max_id);
+  }
   const finalUrl = `${messageListUrl}${
     params.toString() ? '?' + params.toString() : ''
   }`;

@@ -952,21 +952,25 @@ export class Scraper {
   public async getDirectTrustedConversations(
     userId: string,
     cursor?: string,
+    max_id?: string,
   ): Promise<DirectMessagesResponse> {
     return await getTrustedDirectMessageConversations(
       userId,
       this.auth,
+      max_id,
       cursor,
     );
   }
 
   public async getUntrustedDirectMessageConversations(
     userId: string,
+    max_id?: string,
     cursor?: string,
   ): Promise<DirectMessagesResponse> {
     return await getUntrustedDirectMessageConversations(
       userId,
       this.auth,
+      max_id,
       cursor,
     );
   }
