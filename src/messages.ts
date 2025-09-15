@@ -14,6 +14,8 @@ export interface DirectMessage {
 
 export interface DirectMessageConversation {
   conversationId: string;
+  maxEntryId?: string;
+  lastReadEventId?: string;
   messages: DirectMessage[];
   participants: {
     id: string;
@@ -145,6 +147,8 @@ function parseDirectMessageConversations(
 
         return {
           conversationId: convId,
+          maxEntryId: conv.max_entry_id,
+          lastReadEventId: conv.last_read_event_id,
           messages: parseDirectMessages(messages, users),
           participants: conv.participants.map((p: any) => ({
             id: p.user_id,
