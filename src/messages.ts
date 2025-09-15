@@ -105,7 +105,7 @@ function parseDirectMessageConversations(
   userId: string,
 ): DirectMessagesResponse {
   try {
-    const inboxState = data?.inbox_initial_state;
+    const inboxState = data?.inbox_initial_state || data?.inbox_timeline;
     const conversations = inboxState?.conversations || {};
     const entries = inboxState?.entries || [];
     const users = inboxState?.users || {};
@@ -225,9 +225,30 @@ function extractMediaUrls(messageData: any): string[] | undefined {
   return urls.length > 0 ? urls : undefined;
 }
 
+export async function getUntrustedDirectMessageConversations(
+  userId: string,
+  auth: TwitterAuth,
+  cursor?: string,
+): Promise<DirectMessagesResponse> {
+  const messageListUrl =
+    'https://x.com/i/api/1.1/dm/inbox_timeline/untrusted.json';
+  return getDirectMessageConversations(userId, auth, messageListUrl, cursor);
+}
+
+export async function getTrustedDirectMessageConversations(
+  userId: string,
+  auth: TwitterAuth,
+  cursor?: string,
+): Promise<DirectMessagesResponse> {
+  const messageListUrl =
+    'https://x.com/i/api/1.1/dm/inbox_timeline/trusted.json';
+  return getDirectMessageConversations(userId, auth, messageListUrl, cursor);
+}
+
 export async function getDirectMessageConversations(
   userId: string,
   auth: TwitterAuth,
+  messageListUrl?: string,
   cursor?: string,
 ): Promise<DirectMessagesResponse> {
   if (!auth.isLoggedIn()) {
@@ -236,7 +257,10 @@ export async function getDirectMessageConversations(
 
   const url =
     'https://twitter.com/i/api/graphql/7s3kOODhC5vgXlO0OlqYdA/DMInboxTimeline';
-  const messageListUrl = 'https://x.com/i/api/1.1/dm/inbox_initial_state.json';
+
+  if (!messageListUrl) {
+    messageListUrl = 'https://x.com/i/api/1.1/dm/inbox_initial_state.json';
+  }
 
   const params = new URLSearchParams();
 

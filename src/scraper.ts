@@ -84,6 +84,8 @@ import {
   DirectMessagesResponse,
   getDirectMessageConversations,
   sendDirectMessage,
+  getUntrustedDirectMessageConversations,
+  getTrustedDirectMessageConversations,
   SendDirectMessageResponse,
 } from './messages';
 import {
@@ -945,6 +947,28 @@ export class Scraper {
     cursor?: string,
   ): Promise<DirectMessagesResponse> {
     return await getDirectMessageConversations(userId, this.auth, cursor);
+  }
+
+  public async getDirectTrustedConversations(
+    userId: string,
+    cursor?: string,
+  ): Promise<DirectMessagesResponse> {
+    return await getTrustedDirectMessageConversations(
+      userId,
+      this.auth,
+      cursor,
+    );
+  }
+
+  public async getUntrustedDirectMessageConversations(
+    userId: string,
+    cursor?: string,
+  ): Promise<DirectMessagesResponse> {
+    return await getUntrustedDirectMessageConversations(
+      userId,
+      this.auth,
+      cursor,
+    );
   }
 
   /**
