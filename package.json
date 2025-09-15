@@ -2,7 +2,7 @@
   "name": "social-proton-twitter-client",
   "description": "A twitter client for agents",
   "keywords": [],
-  "version": "0.0.29",
+  "version": "0.0.30",
   "main": "dist/default/cjs/index.js",
   "types": "./dist/types/index.d.ts",
   "exports": {
