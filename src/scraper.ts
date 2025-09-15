@@ -951,8 +951,8 @@ export class Scraper {
 
   public async getDirectTrustedConversations(
     userId: string,
-    cursor?: string,
     max_id?: string,
+    cursor?: string,
   ): Promise<DirectMessagesResponse> {
     return await getTrustedDirectMessageConversations(
       userId,
