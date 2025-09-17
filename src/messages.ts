@@ -233,13 +233,7 @@ export async function getUntrustedDirectMessageConversations(
 ): Promise<DirectMessagesResponse> {
   const messageListUrl =
     'https://x.com/i/api/1.1/dm/inbox_timeline/untrusted.json';
-  return getDirectMessageConversations(
-    userId,
-    auth,
-    messageListUrl,
-    max_id,
-    cursor,
-  );
+  return getDirectMessage(userId, auth, messageListUrl, max_id, cursor);
 }
 
 export async function getTrustedDirectMessageConversations(
@@ -250,16 +244,19 @@ export async function getTrustedDirectMessageConversations(
 ): Promise<DirectMessagesResponse> {
   const messageListUrl =
     'https://x.com/i/api/1.1/dm/inbox_timeline/trusted.json';
-  return getDirectMessageConversations(
-    userId,
-    auth,
-    messageListUrl,
-    max_id,
-    cursor,
-  );
+  return getDirectMessage(userId, auth, messageListUrl, max_id, cursor);
 }
 
 export async function getDirectMessageConversations(
+  userId: string,
+  auth: TwitterAuth,
+  cursor?: string,
+): Promise<DirectMessagesResponse> {
+  const messageListUrl = 'https://x.com/i/api/1.1/dm/inbox_initial_state.json';
+  return getDirectMessage(userId, auth, messageListUrl, undefined, cursor);
+}
+
+export async function getDirectMessage(
   userId: string,
   auth: TwitterAuth,
   messageListUrl?: string,
